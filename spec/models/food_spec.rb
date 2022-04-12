@@ -64,4 +64,24 @@ RSpec.describe Food, type: :model do
       expect(Food.by_letter("N")).to eq([food3, food1])
     end
   end
+
+  it 'Food model does not accept non numeric values for "price" field' do
+    food = Food.create(
+      name: "Nasi Uduk",
+      description: "Betawi style steamed rice cooked in coconut milk. Delicious!",
+      price: "joni"
+    )
+
+    expect(food.errors[:price]).to include("is not a number")
+  end
+
+  it 'Food model does not accept "price" less than 0.01' do
+    food = Food.create(
+      name: "Nasi Uduk",
+      description: "Betawi style steamed rice cooked in coconut milk. Delicious!",
+      price: 0.001
+    )
+
+    expect(food.errors[:price]).to include("must be greater than or equal to 0.01")
+  end
 end
