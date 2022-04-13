@@ -56,7 +56,7 @@ RSpec.describe Food, type: :model do
       )
 
       food3 = Food.create(
-        name: "Nasi Semur Jengkol",
+        name: "Nasi Semur",
         description: "Based on dongfruit, this menu promises a unique and delicious taste with a small hint of bitterness.",
         price: 8000.0
       )
@@ -79,9 +79,21 @@ RSpec.describe Food, type: :model do
     food = Food.create(
       name: "Nasi Uduk",
       description: "Betawi style steamed rice cooked in coconut milk. Delicious!",
-      price: 0.001
+      price: 0.000001
     )
 
     expect(food.errors[:price]).to include("must be greater than or equal to 0.01")
+  end
+
+  it 'price field should have values less than or equal 2 words' do
+    food = Food.create(
+      name: "Nasi Uduk Jawa",
+      description: "Betawi style steamed rice cooked in coconut milk. Delicious!",
+      price: 0.001
+    )
+
+    food.valid?
+
+    expect(food.errors[:name]).to include("You must have less than 2 words")
   end
 end
