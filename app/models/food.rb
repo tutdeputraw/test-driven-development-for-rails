@@ -1,4 +1,6 @@
 class Food < ApplicationRecord
+  belongs_to :category
+  
   validates :name, presence: true, uniqueness: true
   validate :word_count_is_less_than_or_equal_to_2_words
   validates_numericality_of :price, greater_than_or_equal_to: 0.01
